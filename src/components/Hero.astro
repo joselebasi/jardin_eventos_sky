@@ -1,0 +1,33 @@
+---
+import Image from "astro/components/Image.astro";
+---
+
+<main>
+    <section class="relative overflow-hidden bg-neutral-950 text-white">
+        <div
+            class="max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-12 items-center"
+        >
+            <!-- Texto -->
+            <div>
+                <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+                    Momentos que cuentan historias
+                </h1>
+                <p class="mt-6 text-lg text-neutral-300">
+                    El mejor lugar para tus eventos en Atlatlahucan, Mor.
+                </p>
+
+                <a
+                    href="#galeria"
+                    class="inline-block mt-8 px-8 py-3 bg-white text-black font-medium rounded-full hover:bg-neutral-200 transition"
+                >
+                    Explorar galería
+                </a>
+            </div>
+
+            <!-- Preview tipo collage -->
+            <video controls preload="none" class="w-full h-auto">
+                <source src="/video.mp4" type="video/mp4" />
+            </video>
+        </div>
+    </section>
+</main>
