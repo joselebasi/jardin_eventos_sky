@@ -26,9 +26,47 @@ import Image from "astro/components/Image.astro";
 
             <!-- Preview tipo collage -->
 
-            <video autoplay loop muted class="w-full h-full">
-                <source src="/video2.mp4" type="video/mp4" />
-            </video>
+            <div class="relative animate-fade-in-right">
+                <!-- Glow -->
+                <div
+                    class="absolute -inset-4 bg-white/5 blur-3xl rounded-[3rem]"
+                >
+                </div>
+
+                <!-- Card video -->
+                <div
+                    class="relative overflow-hidden rounded-[2rem] border border-neutral-800 shadow-2xl bg-neutral-900"
+                >
+                    <!-- Overlay -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none"
+                    >
+                    </div>
+
+                    <video
+                        autoplay
+                        loop
+                        muted
+                        playsinline
+                        class="w-full h-[650px] object-cover"
+                    >
+                        <source src="/video2.mp4" type="video/mp4" />
+                    </video>
+
+                    <!-- Badge -->
+                    <div
+                        class="absolute bottom-6 left-6 z-20 backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl px-5 py-4"
+                    >
+                        <p class="text-sm text-neutral-300">
+                            Jardín de Eventos SKY
+                        </p>
+
+                        <h3 class="text-xl font-semibold mt-1">
+                            Atlatlahucan, Morelos
+                        </h3>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </main>
