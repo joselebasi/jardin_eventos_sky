@@ -42,6 +42,16 @@ test("El logo es monocromático y compartido entre header y footer", async () =>
     }
 });
 
+test("El favicon usa el emblema del logo y se adapta al tema del sistema", async () => {
+    const html = await readPage("index.html");
+    const favicon = await readFile(new URL("../dist/favicon.svg", import.meta.url), "utf8");
+
+    assert.match(html, /rel="icon" type="image\/svg\+xml" href="\/favicon\.svg"/);
+    assert.match(favicon, /<image class="logo" href="\/logo-jardin-sky\.png"/);
+    assert.match(favicon, /prefers-color-scheme: dark/);
+    await readFile(new URL("../dist/logo-jardin-sky.png", import.meta.url));
+});
+
 test("El footer publica Facebook y el crédito de LinkedIn con destinos seguros", async () => {
     const html = await readPage("index.html");
     const footer = await readFile(new URL("../src/components/Footer.astro", import.meta.url), "utf8");
