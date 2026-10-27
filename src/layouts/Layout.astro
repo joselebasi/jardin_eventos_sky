@@ -1,7 +1,17 @@
 ---
-import ClientRouter from "astro/components/ClientRouter.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import "../styles/global.css";
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = "Jardín de Eventos SKY | Eventos en Atlatlahucan, Morelos",
+	description = "Celebra bodas, XV años y eventos especiales en Jardín de Eventos SKY, un espacio rodeado de naturaleza en Atlatlahucan, Morelos.",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -12,55 +22,28 @@ import Header from "../components/Header.astro";
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>SKY jardin de eventos</title>
-		<ClientRouter />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#10251d" />
+		<script is:inline>
+			const themeStorageKey = "sky-theme";
+			let savedTheme = null;
+			try {
+				savedTheme = localStorage.getItem(themeStorageKey);
+			} catch {}
+			const systemTheme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+			const initialTheme = savedTheme === "dark" || savedTheme === "light" ? savedTheme : systemTheme;
+			document.documentElement.dataset.theme = initialTheme;
+				document.querySelector('meta[name="theme-color"]')?.setAttribute("content", initialTheme === "dark" ? "#10251d" : "#e6ede7");
+		</script>
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<title>{title}</title>
 	</head>
 	<body>
+		<a class="skip-link" href="#contenido">Saltar al contenido</a>
 		<Header />
-		<slot />
+		<div id="contenido" tabindex="-1"><slot /></div>
 		<Footer />
 	</body>
 </html>
-<style is:global>
-	@import "tailwindcss";
-	@import "@midudev/tailwind-animations";
-	@font-face {
-		font-family: "Geist";
-		src: url("/fonts/geist.woff2") format("woff2");
-		font-style: normal;
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Unbounded";
-		src: url("/fonts/unbounded.woff2") format("woff2");
-		font-style: normal;
-		font-display: swap;
-	}
-
-	main {
-		font-family: "Geist", sans-serif;
-	}
-
-	header,
-	footer {
-		font-family: "Unbounded", sans-serif;
-	}
-</style>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-		display: grid;
-		min-height: 100dvh;
-		grid-template-rows: auto 1fr auto;
-	}
-	main {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

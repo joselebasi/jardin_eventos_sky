@@ -1,15 +1,59 @@
-<header>
-    <div class="flex justify-between items-center m-4">
-        <div>
-            <ul class="flex gap-6">
-                <li><a href="/" class="relative group px-3 py-2 text-black font-medium transition duration-300 hover:text-gray-500"><span>Inicio</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-gray-200 to-gray-400 group-hover:w-full transition-all duration-300"></span></a></li>
-                <li><a href="/galeria" class="relative group px-3 py-2 text-black font-medium transition duration-300 hover:text-gray-500"><span>Galeria</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-gray-200 to-gray-400 group-hover:w-full transition-all duration-300"></span></a></li>
-                <li><a href="/ubicacion" class="relative group px-3 py-2 text-black font-medium transition duration-300 hover:text-gray-500"><span>Ubicacion</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-gray-200 to-gray-400 group-hover:w-full transition-all duration-300"></span></a></li>
-                <li><a href="/contacto" class="relative group px-3 py-2 text-black font-medium transition duration-300 hover:text-gray-500"><span>Contacto</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-gray-200 to-gray-400 group-hover:w-full transition-all duration-300"></span></a></li>
+---
+import { Menu, Moon, Sun } from "lucide-react";
+import { Button, buttonVariants } from "./ui/button";
+import ActionLink from "./ActionLink";
+
+const links = [
+    { href: "/", label: "Inicio" },
+    { href: "/galeria", label: "Galería" },
+    { href: "/ubicacion", label: "Ubicación" },
+    { href: "/contacto", label: "Contacto" },
+];
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const navLink = "text-sm text-[var(--color-nav-link)] transition-colors hover:text-primary aria-[current=page]:text-primary";
+---
+
+<header class="relative z-20 bg-[var(--color-forest)] text-foreground">
+    <div class="mx-auto grid min-h-25 w-[calc(100%-2rem)] max-w-7xl grid-cols-[1fr_auto_auto] items-center gap-3 sm:w-[calc(100%-3rem)] min-[901px]:grid-cols-[1fr_auto_auto_auto] min-[901px]:gap-8">
+        <a class="brand" href="/" aria-label="Jardín de Eventos SKY, inicio">
+            <img class="h-17 w-29 object-contain brightness-0 [[data-theme=dark]_&]:invert" src="/logo-jardin-sky.png" alt="" width="159" height="82" />
+        </a>
+        <nav class="hidden min-[901px]:block" aria-label="Navegación principal">
+            <ul class="flex items-center gap-6 lg:gap-8">
+                {links.map(({ href, label }) => <li><a class={navLink} href={href} aria-current={currentPath === href ? "page" : undefined}>{label}</a></li>)}
             </ul>
-        </div>
-        <div>
-              <img class="w-30 object-contain" src="/logo.png" alt="Logo" />
-        </div>
+        </nav>
+        <ActionLink className="hidden min-[901px]:inline-flex" href="/contacto" label="Planea tu evento" />
+        <Button id="theme-toggle" variant="outline" size="icon" className="size-11 border-border bg-transparent" type="button" aria-label="Modo oscuro" aria-pressed="false" title="Alternar tema claro y oscuro">
+            <Moon className="[[data-theme=dark]_&]:hidden" aria-hidden="true" />
+            <Sun className="hidden [[data-theme=dark]_&]:block" aria-hidden="true" />
+        </Button>
+        <details class="group relative min-[901px]:hidden">
+            <summary class:list={[buttonVariants({ variant: "ghost", size: "icon" }), "size-11 cursor-pointer list-none [&::-webkit-details-marker]:hidden"]} aria-label="Menú de navegación" title="Menú de navegación">
+                <Menu aria-hidden="true" />
+            </summary>
+            <nav class="absolute top-[calc(100%+0.6rem)] right-0 w-[min(19rem,calc(100vw-2rem))] rounded-md border border-border bg-background p-4 shadow-xl" aria-label="Navegación móvil">
+                <ul class="grid gap-1">
+                    {links.map(({ href, label }) => <li><a class:list={[navLink, "block rounded-md px-3 py-3 hover:bg-accent"]} href={href} aria-current={currentPath === href ? "page" : undefined}>{label}</a></li>)}
+                    <li class="mt-2"><ActionLink className="w-full" href="/contacto" label="Planea tu evento" /></li>
+                </ul>
+            </nav>
+        </details>
     </div>
 </header>
+
+<script>
+    const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle");
+    function setTheme(theme: "light" | "dark", persist = false) {
+        document.documentElement.dataset.theme = theme;
+        themeToggle?.setAttribute("aria-pressed", String(theme === "dark"));
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#10251d" : "#e6ede7");
+        if (persist) {
+            try { localStorage.setItem("sky-theme", theme); } catch {}
+        }
+    }
+    setTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+    themeToggle?.addEventListener("click", () => {
+        setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark", true);
+    });
+</script>
