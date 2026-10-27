@@ -52,6 +52,30 @@ test("El favicon usa el emblema del logo y se adapta al tema del sistema", async
     await readFile(new URL("../dist/logo-jardin-sky.png", import.meta.url));
 });
 
+test("El favicon ICO contiene imágenes válidas en varias resoluciones", async () => {
+    const icon = await readFile(new URL("../dist/favicon.ico", import.meta.url));
+
+    assert.equal(icon.readUInt16LE(0), 0);
+    assert.equal(icon.readUInt16LE(2), 1);
+    const imageCount = icon.readUInt16LE(4);
+    assert.equal(imageCount, 3);
+
+    const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    const dimensions = [];
+    for (let index = 0; index < imageCount; index++) {
+        const entryOffset = 6 + index * 16;
+        const width = icon[entryOffset] || 256;
+        const height = icon[entryOffset + 1] || 256;
+        const imageLength = icon.readUInt32LE(entryOffset + 8);
+        const imageOffset = icon.readUInt32LE(entryOffset + 12);
+
+        dimensions.push(`${width}x${height}`);
+        assert.deepEqual(icon.subarray(imageOffset, imageOffset + pngSignature.length), pngSignature);
+        assert.ok(imageOffset + imageLength <= icon.length);
+    }
+    assert.deepEqual(dimensions, ["16x16", "32x32", "48x48"]);
+});
+
 test("El footer publica Facebook y el crédito de LinkedIn con destinos seguros", async () => {
     const html = await readPage("index.html");
     const footer = await readFile(new URL("../src/components/Footer.astro", import.meta.url), "utf8");
