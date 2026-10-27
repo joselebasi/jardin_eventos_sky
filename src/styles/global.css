@@ -1,1 +1,169 @@
 @import "tailwindcss";
+@import "@midudev/tailwind-animations";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+	--color-border: #31453a;
+}
+
+@theme inline {
+	--color-background: var(--color-paper);
+	--color-foreground: var(--color-on-forest);
+	--color-primary: var(--color-action);
+	--color-primary-foreground: var(--color-action-text);
+	--color-secondary: var(--color-soft-surface);
+	--color-secondary-foreground: var(--color-on-forest);
+	--color-muted-foreground: var(--color-muted);
+	--color-accent: var(--color-soft-surface);
+	--color-accent-foreground: var(--color-on-forest);
+	--color-input: var(--color-border);
+	--color-ring: var(--color-leaf);
+	--color-popover: var(--color-paper);
+	--color-popover-foreground: var(--color-on-forest);
+	--color-destructive: #b42318;
+	--radius-sm: 0.25rem;
+	--radius-md: 0.375rem;
+	--radius-lg: 0.5rem;
+	--font-display: "Unbounded", sans-serif;
+}
+
+@font-face {
+	font-family: "Geist";
+	src: url("/fonts/geist.woff2") format("woff2");
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Unbounded";
+	src: url("/fonts/unbounded.woff2") format("woff2");
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--color-forest: #10251d;
+	--color-leaf: #d9e8b5;
+	--color-ink: #18251f;
+	--color-paper: #f4f6f1;
+	--color-on-forest: #f5f7f2;
+	--color-muted: #c1cec4;
+	--color-header-muted: #bac8bd;
+	--color-soft-surface: #173126;
+	--color-border: #31453a;
+	--color-action: #d9e8b5;
+	--color-action-text: #172a20;
+	--color-nav-link: #e0e7df;
+	--font-body: "Geist", sans-serif;
+	--font-display: "Unbounded", sans-serif;
+}
+
+:root[data-theme="light"] {
+	color-scheme: light;
+	--color-forest: #e6ede7;
+	--color-leaf: #31563e;
+	--color-ink: #18251f;
+	--color-paper: #f4f6f1;
+	--color-on-forest: #18251f;
+	--color-muted: #46584d;
+	--color-header-muted: #43564a;
+	--color-soft-surface: #dce7de;
+	--color-border: #b6c8ba;
+	--color-action: #294f38;
+	--color-action-text: #ffffff;
+	--color-nav-link: #253d2e;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--color-forest: #10251d;
+	--color-leaf: #d9e8b5;
+	--color-ink: #f5f7f2;
+	--color-paper: #111a15;
+	--color-on-forest: #f5f7f2;
+	--color-muted: #c1cec4;
+	--color-header-muted: #bac8bd;
+	--color-soft-surface: #173126;
+	--color-border: #31453a;
+	--color-action: #d9e8b5;
+	--color-action-text: #172a20;
+	--color-nav-link: #e0e7df;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme]) {
+		color-scheme: dark;
+		--color-forest: #10251d;
+		--color-leaf: #d9e8b5;
+		--color-ink: #f5f7f2;
+		--color-paper: #111a15;
+		--color-on-forest: #f5f7f2;
+		--color-muted: #c1cec4;
+		--color-header-muted: #bac8bd;
+		--color-soft-surface: #173126;
+		--color-border: #31453a;
+		--color-action: #d9e8b5;
+		--color-action-text: #172a20;
+		--color-nav-link: #e0e7df;
+	}
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	width: 100%;
+	min-height: 100svh;
+	margin: 0;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	color: var(--color-ink);
+	background: var(--color-paper);
+	font-family: var(--font-body);
+}
+
+#contenido {
+	min-width: 0;
+}
+
+#contenido:focus {
+	outline: 3px solid currentColor;
+	outline-offset: 4px;
+}
+
+:focus-visible {
+	outline: 3px solid currentColor;
+	outline-offset: 4px;
+}
+
+.skip-link {
+	position: fixed;
+	top: 0.75rem;
+	left: 0.75rem;
+	z-index: 50;
+	padding: 0.75rem 1rem;
+	transform: translateY(-160%);
+	color: var(--color-ink);
+	background: var(--color-leaf);
+	font-weight: 600;
+}
+
+.skip-link:focus {
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+
+	html {
+		scroll-behavior: auto;
+	}
+}
