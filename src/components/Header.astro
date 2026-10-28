@@ -10,7 +10,7 @@ const links = [
     { href: "/contacto", label: "Contacto" },
 ];
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-const navLink = "text-sm text-[var(--color-nav-link)] transition-colors hover:text-primary aria-[current=page]:text-primary";
+const navLink = "text-sm text-[var(--color-nav-link)] underline-offset-4 transition-colors hover:text-primary hover:underline aria-[current=page]:text-primary";
 ---
 
 <header class="relative z-20 bg-[var(--color-forest)] text-foreground">
