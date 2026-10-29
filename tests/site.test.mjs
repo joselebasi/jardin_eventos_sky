@@ -26,6 +26,11 @@ for (const [name, file] of pages) {
         assert.match(html, /id="theme-toggle"/);
         assert.match(html, /aria-label="Modo oscuro"/);
         assert.match(html, /aria-pressed="false"/);
+        assert.match(html, /aria-label="Anuncios del jardín"/);
+        assert.doesNotMatch(html, /cintilla-toggle|cintilla-control|Pausar anuncios/);
+        assert.equal((html.match(/<ul class="cintilla-group"/g) ?? []).length, 2);
+        assert.match(html, /<ul class="cintilla-group" aria-hidden="true"/);
+        assert.equal((html.match(/Reserva la fecha de tu evento/g) ?? []).length, 2);
         assert.equal((html.match(/class="brand-name"/g) ?? []).length, 0);
         assert.equal((html.match(/<a class="brand"[^>]*>/g) ?? []).length, 2);
     });

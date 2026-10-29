@@ -1,0 +1,95 @@
+---
+const messages = [
+    "Reserva la fecha de tu evento",
+    "Bodas, XV a\u00f1os y momentos especiales",
+    "Conoce nuestro jard\u00edn en Morelos",
+];
+---
+
+<aside class="cintilla-container" aria-label="Anuncios del jardín">
+    <div class="cintilla-viewport">
+        <div class="cintilla-track">
+            {[false, true].map((duplicate) => (
+                <ul class="cintilla-group" aria-hidden={duplicate ? "true" : undefined}>
+                    {messages.map((message) => <li>{message}</li>)}
+                </ul>
+            ))}
+        </div>
+    </div>
+</aside>
+
+<style>
+    .cintilla-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        color: var(--color-action-text);
+        background: var(--color-action);
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .cintilla-viewport {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        padding-block: 0.75rem;
+    }
+
+    .cintilla-track {
+        display: flex;
+        width: max-content;
+        animation: cintilla-scroll 35s linear infinite;
+    }
+
+    .cintilla-group {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: space-around;
+        gap: 3rem;
+        min-width: 100vw;
+        margin: 0;
+        padding: 0 1.5rem;
+        list-style: none;
+    }
+
+    .cintilla-group li {
+        white-space: nowrap;
+    }
+
+    .cintilla-viewport:hover .cintilla-track {
+        animation-play-state: paused;
+    }
+
+    @keyframes cintilla-scroll {
+        to {
+            transform: translateX(-50%);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .cintilla-group[aria-hidden="true"] {
+            display: none;
+        }
+
+        .cintilla-track {
+            width: 100%;
+            animation: none;
+        }
+
+        .cintilla-group {
+            flex-wrap: wrap;
+            gap: 0.5rem 2rem;
+            width: 100%;
+            min-width: 0;
+            text-align: center;
+        }
+
+        .cintilla-group li {
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+    }
+</style>
