@@ -2,6 +2,7 @@
 import { Menu, Moon, Sun } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
 import ActionLink from "./ActionLink";
+import AnnouncementBar from "./AnnouncementBar.astro";
 
 const links = [
     { href: "/", label: "Inicio" },
@@ -13,7 +14,8 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 const navLink = "text-sm text-[var(--color-nav-link)] underline-offset-4 transition-colors hover:text-primary hover:underline aria-[current=page]:text-primary";
 ---
 
-<header class="relative z-20 bg-[var(--color-forest)] text-foreground">
+<header class="relative z-20 min-w-0 bg-[var(--color-forest)] text-foreground">
+    <AnnouncementBar />
     <div class="mx-auto grid min-h-25 w-[calc(100%-2rem)] max-w-7xl grid-cols-[1fr_auto_auto] items-center gap-3 sm:w-[calc(100%-3rem)] min-[901px]:grid-cols-[1fr_auto_auto_auto] min-[901px]:gap-8">
         <a class="brand" href="/" aria-label="Jardín de Eventos SKY, inicio">
             <img class="h-24 w-37 object-contain brightness-0 [[data-theme=dark]_&]:invert" src="/logo-jardin-sky.png" alt="Logo Jardín de Eventos SKY" width="159" height="82" />

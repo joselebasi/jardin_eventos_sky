@@ -1,0 +1,142 @@
+---
+import { Pause, Play } from "lucide-react";
+
+const messages = [
+    "Reserva la fecha de tu evento",
+    "Bodas, XV a\u00f1os y momentos especiales",
+    "Conoce nuestro jard\u00edn en Morelos",
+];
+---
+
+<aside class="cintilla-container" aria-label="Anuncios del jardín">
+    <input class="cintilla-toggle" id="cintilla-pausa" type="checkbox" aria-label="Pausar anuncios" />
+    <label class="cintilla-control" for="cintilla-pausa" title="Pausar o reanudar anuncios">
+        <Pause className="cintilla-pause" size={18} aria-hidden="true" />
+        <Play className="cintilla-play" size={18} aria-hidden="true" />
+    </label>
+    <div class="cintilla-viewport">
+        <div class="cintilla-track">
+            {[false, true].map((duplicate) => (
+                <ul class="cintilla-group" aria-hidden={duplicate ? "true" : undefined}>
+                    {messages.map((message) => <li>{message}</li>)}
+                </ul>
+            ))}
+        </div>
+    </div>
+</aside>
+
+<style>
+    .cintilla-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        color: var(--color-action-text);
+        background: var(--color-action);
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .cintilla-viewport {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        padding-block: 0.75rem;
+    }
+
+    .cintilla-track {
+        display: flex;
+        width: max-content;
+        animation: cintilla-scroll 35s linear infinite;
+    }
+
+    .cintilla-group {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: space-around;
+        gap: 3rem;
+        min-width: 100vw;
+        margin: 0;
+        padding: 0 1.5rem;
+        list-style: none;
+    }
+
+    .cintilla-group li {
+        white-space: nowrap;
+    }
+
+    .cintilla-toggle,
+    .cintilla-control {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+
+    .cintilla-toggle {
+        position: absolute;
+        inset-inline-start: 0;
+        top: 50%;
+        z-index: 1;
+        margin: 0;
+        opacity: 0;
+        transform: translateY(-50%);
+    }
+
+    .cintilla-control {
+        display: grid;
+        place-items: center;
+    }
+
+    .cintilla-toggle:focus-visible + .cintilla-control {
+        outline: 2px solid currentColor;
+        outline-offset: -4px;
+    }
+
+    .cintilla-control :global(.cintilla-play),
+    .cintilla-toggle:checked + .cintilla-control :global(.cintilla-pause) {
+        display: none;
+    }
+
+    .cintilla-toggle:checked + .cintilla-control :global(.cintilla-play) {
+        display: block;
+    }
+
+    .cintilla-toggle:checked ~ .cintilla-viewport .cintilla-track,
+    .cintilla-viewport:hover .cintilla-track {
+        animation-play-state: paused;
+    }
+
+    @keyframes cintilla-scroll {
+        to {
+            transform: translateX(-50%);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .cintilla-toggle,
+        .cintilla-control,
+        .cintilla-group[aria-hidden="true"] {
+            display: none;
+        }
+
+        .cintilla-track {
+            width: 100%;
+            animation: none;
+        }
+
+        .cintilla-group {
+            flex-wrap: wrap;
+            gap: 0.5rem 2rem;
+            width: 100%;
+            min-width: 0;
+            text-align: center;
+        }
+
+        .cintilla-group li {
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+    }
+</style>
